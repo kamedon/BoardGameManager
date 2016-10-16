@@ -1,0 +1,11 @@
+signingConfigs {
+    debug {
+        def signFile = file("../keystore/store.txt")
+        def signingProps = new Properties()
+        signingProps.load(new FileInputStream(signFile))
+        storeFile file("../keystore/dev.jks")
+        keyAlias signingProps['KEY_ALIAS']
+        storePassword signingProps['STORE_PASSWORD']
+        keyPassword signingProps['KEY_PASSWORD']
+    }
+}
