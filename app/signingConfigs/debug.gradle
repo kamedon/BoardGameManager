@@ -1,6 +1,6 @@
 signingConfigs {
     debug {
-        def signFile = file("../keystore/store.txt")
+        def signFile = file("../keystore/store-dev.txt")
         def signingProps = new Properties()
         signingProps.load(new FileInputStream(signFile))
         storeFile file("../keystore/dev.jks")

@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "945497478162",
+    "firebase_url": "https://boardgamemanager-58040.firebaseio.com",
+    "project_id": "boardgamemanager-58040",
+    "storage_bucket": "boardgamemanager-58040.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945497478162:android:be8f9962d8a46c33",
+        "android_client_info": {
+          "package_name": "com.kamedon.boardgamemanager.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "945497478162-2gepf0tubsi58mj3ndord8otdk06kla1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kamedon.boardgamemanager.dev",
+            "certificate_hash": "A7071774E6AE1A3F92439DF51D9378B2037A3D34"
+          }
+        },
+        {
+          "client_id": "945497478162-irfv6p7kq7bikjtl9lfer94h53s95bh7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjaWLo1PimYPcLc4gqc2mcZWYF6Yktzek"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "945497478162-irfv6p7kq7bikjtl9lfer94h53s95bh7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945497478162:android:22b6af90768a9f45",
+        "android_client_info": {
+          "package_name": "com.kamedon.boardgamemanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "945497478162-t3e195hchtlc06c3iirn6gl70v18qvth.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kamedon.boardgamemanager",
+            "certificate_hash": "01051897096652BE0DC6242F26561E3D99C68841"
+          }
+        },
+        {
+          "client_id": "945497478162-irfv6p7kq7bikjtl9lfer94h53s95bh7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjaWLo1PimYPcLc4gqc2mcZWYF6Yktzek"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "945497478162-irfv6p7kq7bikjtl9lfer94h53s95bh7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
