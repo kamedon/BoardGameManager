@@ -1,6 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.google.gms.google-services'
+
+ext.firebase_version = '9.6.1'
+ext.leakcanary_version = '1.5'
+ext.google_support_version = '24.2.1'
 
 android {
     compileSdkVersion 24
@@ -32,16 +35,28 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
+    //Support Library
+    compile "com.android.support:appcompat-v7:$google_support_version"
+    compile "com.android.support:design:$google_support_version"
+    compile "com.android.support:cardview-v7:$google_support_version"
+
+    //kotlin
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    //Firebase
+    compile "com.google.firebase:firebase-core:$firebase_version"
+    compile "com.google.firebase:firebase-database:$firebase_version"
+    compile "com.google.firebase:firebase-auth:$firebase_version"
 
     //leakcanary
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.+'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.+'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.+'
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
 
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.google.firebase:firebase-core:9.6.1'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
 }
 repositories {
     mavenCentral()
 }
+
+apply plugin: 'com.google.gms.google-services'
