@@ -1,8 +1,8 @@
 buildTypes {
     debug {
-        applicationIdSuffix '.debug'
+        applicationIdSuffix '.dev'
         debuggable true
-        versionNameSuffix "-debug"
+        versionNameSuffix "-dev"
         zipAlignEnabled true
         minifyEnabled false
         signingConfig signingConfigs.debug
