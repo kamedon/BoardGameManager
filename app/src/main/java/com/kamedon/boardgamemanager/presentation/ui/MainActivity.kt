@@ -1,8 +1,10 @@
-package com.kamedon.boardgamemanager
+package com.kamedon.boardgamemanager.presentation.ui
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.kamedon.boardgamemanager.R
+import com.kamedon.boardgamemanager.presentation.ui.camera.CameraActivity
 
 class MainActivity : AppCompatActivity() {
 
