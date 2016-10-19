@@ -48,6 +48,9 @@ dependencies {
     compile "com.google.firebase:firebase-database:$firebase_version"
     compile "com.google.firebase:firebase-auth:$firebase_version"
 
+    //vision
+    compile "com.google.android.gms:play-services-vision:$firebase_version"
+
     //leakcanary
     debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
