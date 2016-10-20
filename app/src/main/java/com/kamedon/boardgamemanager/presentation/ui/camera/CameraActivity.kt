@@ -14,24 +14,6 @@ class CameraActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
-//        val txtView = findViewById(R.id.txtContent) as TextView
-//        val myImageView = findViewById(R.id.imgview) as ImageView
-//        val myBitmap = BitmapFactory.decodeResource(applicationContext.resources, R.drawable.barcode)
-//        myImageView.setImageBitmap(myBitmap)
-//
-//        val detector = BarcodeDetector.Builder(applicationContext).setBarcodeFormats(Barcode.DATA_MATRIX or Barcode.QR_CODE).build()
-//        if (!detector.isOperational) {
-//            txtView.text = "Could not set up the detector!"
-//            return
-//        }
-//
-//        findViewById(R.id.button).setOnClickListener {
-//            val frame = Frame.Builder().setBitmap(myBitmap).build()
-//            val barcodes = detector.detect(frame)
-//
-//            val thisCode = barcodes.valueAt(0)
-//            txtView.text = thisCode.rawValue
-//        }
         CameraActivityPermissionsDispatcher.showCameraWithCheck(this)
     }
 
@@ -45,7 +27,7 @@ class CameraActivity : AppCompatActivity() {
     @NeedsPermission(Manifest.permission.CAMERA)
     fun showCamera() {
         // NOTE: Perform action that requires the permission. If this is run by PermissionsDispatcher, the permission will have been granted
-        supportFragmentManager.beginTransaction().replace(R.id.fragment, CameraFragment.newInstance()).addToBackStack("camera").commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().replace(R.id.fragment, CameraFragment.newInstance()).commit()
     }
 
 

@@ -75,8 +75,11 @@ class CameraView @JvmOverloads constructor(
     override fun surfaceCreated(holder: SurfaceHolder?) {
         if (!isInEditMode) {
             try {
-                val camera = CameraClient.camera
-                camera?.setPreviewDisplay(holder)
+                var camera = CameraClient.camera
+                if (camera == null) {
+                    camera = CameraClient.setup()
+                }
+                camera.setPreviewDisplay(holder)
             } catch (e: IOException) {
                 e.printStackTrace()
 //                Log.e(TAG, e.getClass().getName() + ": caused by setPreviewDisplay at Preview#surfaceCreated()", e)
@@ -90,7 +93,7 @@ class CameraView @JvmOverloads constructor(
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
-        CameraClient.camera?.stopPreview();
+        CameraClient.camera?.stopPreview()
     }
 
     fun startPreview() {

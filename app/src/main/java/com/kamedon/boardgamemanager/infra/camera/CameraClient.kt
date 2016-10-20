@@ -2,6 +2,7 @@ package com.kamedon.boardgamemanager.infra.camera
 
 import android.graphics.*
 import android.hardware.Camera
+import android.util.Log
 import rx.subjects.PublishSubject
 import java.io.ByteArrayOutputStream
 
@@ -37,7 +38,7 @@ object CameraClient {
             mCurrentCameraId = if (mDefaultCameraId === INVALID_CAMERA_ID) mCameraFacingBackId else mDefaultCameraId
         }
 
-        camera = open()
+        setup()
     }
 
     fun open(): Camera {
@@ -64,15 +65,27 @@ object CameraClient {
     fun autofocus(callback: () -> Unit) {
         if (!focusing) {
             synchronized(this) {
+                if (camera == null) {
+                    return
+                }
                 if (!focusing) {
                     focusing = true
-                    camera?.autoFocus { success: Boolean, c: Camera -> shoot() }
+                    try {
+                        camera?.autoFocus { success: Boolean, c: Camera ->
+                            callback()
+                            focusing = false
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        focusing = false
+                    }
                 }
             }
         }
     }
 
     fun shoot() {
+        Log.d("shoot", "shoot");
         camera?.setOneShotPreviewCallback { bytes: ByteArray, camera: Camera ->
             val previewWidth = camera.parameters.previewSize.width
             val previewHeight = camera.parameters.previewSize.height
@@ -80,7 +93,7 @@ object CameraClient {
         }
     }
 
-    fun bytesToBitmap(bytes: ByteArray, width: Int, height: Int): Bitmap? {
+    fun bytesToBitmap(bytes: ByteArray, width: Int, height: Int): Bitmap {
         val yuvimage = YuvImage(bytes, ImageFormat.NV21, width, height, null)
         val baos = ByteArrayOutputStream()
         yuvimage.compressToJpeg(Rect(0, 0, width, height), 80, baos)
@@ -88,7 +101,14 @@ object CameraClient {
         val bitmapFatoryOptions = BitmapFactory.Options()
         bitmapFatoryOptions.inPreferredConfig = Bitmap.Config.RGB_565
         val bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.size, bitmapFatoryOptions)
-        return bmp
+        return bmp.copy(Bitmap.Config.ARGB_8888, true)
+
+    }
+
+    fun setup(): Camera {
+        val c = open()
+        camera = c
+        return c
     }
 
 
