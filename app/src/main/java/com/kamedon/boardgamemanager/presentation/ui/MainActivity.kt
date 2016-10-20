@@ -15,5 +15,10 @@ class MainActivity : AppCompatActivity() {
         findViewById(R.id.btnCamera).setOnClickListener {
             startActivity(Intent(application, CameraActivity::class.java))
         }
+
+
     }
+
+
 }
+
