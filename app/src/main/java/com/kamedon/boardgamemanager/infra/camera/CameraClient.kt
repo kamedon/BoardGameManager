@@ -85,7 +85,6 @@ object CameraClient {
     }
 
     fun shoot() {
-        Log.d("shoot", "shoot");
         camera?.setOneShotPreviewCallback { bytes: ByteArray, camera: Camera ->
             val previewWidth = camera.parameters.previewSize.width
             val previewHeight = camera.parameters.previewSize.height
@@ -102,13 +101,21 @@ object CameraClient {
         bitmapFatoryOptions.inPreferredConfig = Bitmap.Config.RGB_565
         val bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.size, bitmapFatoryOptions)
         return bmp.copy(Bitmap.Config.ARGB_8888, true)
-
     }
 
     fun setup(): Camera {
         val c = open()
+        c.parameters.focusMode = autofoucsMode(c)
         camera = c
         return c
+    }
+
+    private fun autofoucsMode(camera: Camera): String {
+        return if (camera.parameters.supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+            return Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
+        } else {
+            return Camera.Parameters.FOCUS_MODE_AUTO
+        }
     }
 
 

@@ -17,6 +17,7 @@ import com.trello.rxlifecycle.components.support.RxFragment
 import com.trello.rxlifecycle.kotlin.bindToLifecycle
 import rx.Observable
 import rx.Observer
+import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
@@ -43,6 +44,8 @@ class CameraFragment : RxFragment() {
         return view
     }
 
+    private var shootSubscription: Subscription? = null
+
     override fun onResume() {
         super.onResume()
         CameraClient.shootSubject
@@ -55,20 +58,18 @@ class CameraFragment : RxFragment() {
 
                     override fun onNext(bitmap: Bitmap) {
                         bitmap.let {
-                            Log.d("shoot", "bitmap")
                             if (detector.isOperational) {
                                 val frame = Frame.Builder().setBitmap(bitmap).build()
 
                                 val barcodes = detector.detect(frame)
                                 if (barcodes.size() > 0) {
+                                    shootSubscription?.unsubscribe()
                                     val thisCode = barcodes.valueAt(0)
                                     toast(thisCode.toString())
                                 }
-                                toast("none barcode")
                                 image.setImageBitmap(bitmap)
                             }
                         }
-                        Log.d("shoot", "finish");
                     }
 
                     override fun onError(e: Throwable) {
@@ -77,7 +78,7 @@ class CameraFragment : RxFragment() {
 
                 })
 
-        shoot()
+        shootSubscription = shoot()
 
     }
 
