@@ -57,18 +57,16 @@ class CameraFragment : RxFragment() {
                     }
 
                     override fun onNext(bitmap: Bitmap) {
-                        bitmap.let {
-                            if (detector.isOperational) {
-                                val frame = Frame.Builder().setBitmap(bitmap).build()
+                        if (detector.isOperational) {
+                            val frame = Frame.Builder().setBitmap(bitmap).build()
 
-                                val barcodes = detector.detect(frame)
-                                if (barcodes.size() > 0) {
-                                    shootSubscription?.unsubscribe()
-                                    val thisCode = barcodes.valueAt(0)
-                                    toast(thisCode.toString())
-                                }
-                                image.setImageBitmap(bitmap)
+                            val barcodes = detector.detect(frame)
+                            if (barcodes.size() > 0) {
+                                shootSubscription?.unsubscribe()
+                                val thisCode = barcodes.valueAt(0)
+                                toast(thisCode.toString())
                             }
+                            image.setImageBitmap(bitmap)
                         }
                     }
 
