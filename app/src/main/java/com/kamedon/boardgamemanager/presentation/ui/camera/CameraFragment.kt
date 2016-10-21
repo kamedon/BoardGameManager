@@ -7,12 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.google.android.gms.vision.Frame
-import com.google.android.gms.vision.barcode.Barcode
-import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.kamedon.boardgamemanager.R
+import com.kamedon.boardgamemanager.domain.usecase.BarcodeUseCase
+import com.kamedon.boardgamemanager.domain.usecase.CameraOnePreviewUserCase
+import com.kamedon.boardgamemanager.domain.usecase.IBarcodeUseCase
+import com.kamedon.boardgamemanager.domain.usecase.ICameraOnePreviewUserCase
 import com.kamedon.boardgamemanager.infra.camera.CameraClient
-import com.kamedon.boardgamemanager.util.extensions.toast
 import com.trello.rxlifecycle.components.support.RxFragment
 import com.trello.rxlifecycle.kotlin.bindToLifecycle
 import rx.Observable
@@ -20,6 +20,7 @@ import rx.Observer
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import rx.subjects.Subject
 import java.util.concurrent.TimeUnit
 
 
@@ -27,13 +28,16 @@ import java.util.concurrent.TimeUnit
  * Created by kamei.hidetoshi on 2016/10/19.
  */
 class CameraFragment : RxFragment() {
+    val barcodeUseCase: IBarcodeUseCase by lazy {
+        BarcodeUseCase(context)
+    }
+
+    val cameraPreview: ICameraOnePreviewUserCase by lazy {
+        CameraOnePreviewUserCase(CameraClient)
+    }
 
     companion object {
         fun newInstance() = CameraFragment()
-    }
-
-    val detector: BarcodeDetector by lazy {
-        BarcodeDetector.Builder(activity.application).setBarcodeFormats(Barcode.ALL_FORMATS).build()
     }
 
     lateinit var image: ImageView
@@ -48,33 +52,6 @@ class CameraFragment : RxFragment() {
 
     override fun onResume() {
         super.onResume()
-        CameraClient.shootSubject
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .bindToLifecycle(this)
-                .subscribe(object : Observer<Bitmap> {
-                    override fun onCompleted() {
-                    }
-
-                    override fun onNext(bitmap: Bitmap) {
-                        if (detector.isOperational) {
-                            val frame = Frame.Builder().setBitmap(bitmap).build()
-
-                            val barcodes = detector.detect(frame)
-                            if (barcodes.size() > 0) {
-                                shootSubscription?.unsubscribe()
-                                val thisCode = barcodes.valueAt(0)
-                                toast(thisCode.toString())
-                            }
-                            image.setImageBitmap(bitmap)
-                        }
-                    }
-
-                    override fun onError(e: Throwable) {
-                        e.printStackTrace()
-                    }
-
-                })
 
         shootSubscription = shoot()
 
@@ -84,7 +61,7 @@ class CameraFragment : RxFragment() {
             .bindToLifecycle(this)
             .observeOn(AndroidSchedulers.mainThread())
             .map {
-                CameraClient.autofocus { CameraClient.shoot() }
+                cameraPreview.preview { callback(it) }
             }
             .repeatWhen {
                 it.delay(3, TimeUnit.SECONDS)
@@ -97,6 +74,27 @@ class CameraFragment : RxFragment() {
     override fun onPause() {
         super.onPause()
         CameraClient.release()
+    }
+
+    val callback = { it: Subject<Bitmap, Bitmap> ->
+        it.subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .bindToLifecycle(this)
+                .subscribe(object : Observer<Bitmap> {
+                    override fun onError(e: Throwable) {
+                        e.printStackTrace()
+                    }
+
+                    override fun onCompleted() {
+                    }
+
+                    override fun onNext(bitmap: Bitmap) {
+                        barcodeUseCase.read(bitmap).take(1).subscribe {
+                            image.setImageBitmap(bitmap)
+                        }
+                    }
+                })
+
     }
 
 }
