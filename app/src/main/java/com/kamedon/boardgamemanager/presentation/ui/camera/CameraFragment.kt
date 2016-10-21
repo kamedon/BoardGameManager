@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.google.android.gms.vision.barcode.Barcode
-import com.kamedon.boardgamemanager.KApplication
 import com.kamedon.boardgamemanager.R
 import com.kamedon.boardgamemanager.presentation.presenter.BarcodePresenter
 import com.kamedon.boardgamemanager.presentation.presenter.IBarcodeView
+import com.kamedon.boardgamemanager.util.extensions.di
 import com.kamedon.boardgamemanager.util.extensions.toast
 import com.trello.rxlifecycle.components.support.RxFragment
 import com.trello.rxlifecycle.kotlin.bindToLifecycle
@@ -35,7 +35,7 @@ class CameraFragment : RxFragment(), IBarcodeView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter = BarcodePresenter(this)
-        (activity.application as KApplication).di.inject(presenter)
+        di.inject(presenter)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,7 +47,7 @@ class CameraFragment : RxFragment(), IBarcodeView {
 
     override fun onResume() {
         super.onResume()
-        shootSubscription = presenter.start()
+        shootSubscription = presenter.loopOfShoot()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .bindToLifecycle(this).subscribe { }

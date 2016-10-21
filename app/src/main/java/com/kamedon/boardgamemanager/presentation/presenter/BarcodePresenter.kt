@@ -26,12 +26,12 @@ class BarcodePresenter(val view: IBarcodeView) {
         cameraPreview.release()
     }
 
-    inline fun start() = Observable.just(1)
+    fun loopOfShoot(delaySec: Long = 3) = Observable.just(1)
             .map {
                 cameraPreview.preview { view.read((barcodeUseCase.read(it))) }
             }
             .repeatWhen {
-                it.delay(3, TimeUnit.SECONDS)
+                it.delay(delaySec, TimeUnit.SECONDS)
             }
 
 }
