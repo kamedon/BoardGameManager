@@ -1,45 +1,41 @@
 package com.kamedon.boardgamemanager.presentation.ui.camera
 
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.google.android.gms.vision.barcode.Barcode
 import com.kamedon.boardgamemanager.KApplication
 import com.kamedon.boardgamemanager.R
-import com.kamedon.boardgamemanager.domain.usecase.IBarcodeUseCase
-import com.kamedon.boardgamemanager.domain.usecase.ICameraOnePreviewUserCase
+import com.kamedon.boardgamemanager.presentation.presenter.BarcodePresenter
+import com.kamedon.boardgamemanager.presentation.presenter.IBarcodeView
 import com.kamedon.boardgamemanager.util.extensions.toast
 import com.trello.rxlifecycle.components.support.RxFragment
 import com.trello.rxlifecycle.kotlin.bindToLifecycle
 import rx.Observable
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
-import javax.inject.Inject
+import rx.schedulers.Schedulers
 
 
 /**
  * Created by kamei.hidetoshi on 2016/10/19.
  */
-class CameraFragment : RxFragment() {
-
-    @Inject
-    lateinit var barcodeUseCase: IBarcodeUseCase
-
-    @Inject
-    lateinit var cameraPreview: ICameraOnePreviewUserCase
+class CameraFragment : RxFragment(), IBarcodeView {
 
     companion object {
         fun newInstance() = CameraFragment()
     }
 
+    lateinit var presenter: BarcodePresenter
     lateinit var image: ImageView
+    private var shootSubscription: Subscription? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity.application as KApplication).di.inject(this)
+        presenter = BarcodePresenter(this)
+        (activity.application as KApplication).di.inject(presenter)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -48,42 +44,30 @@ class CameraFragment : RxFragment() {
         return view
     }
 
-    private var shootSubscription: Subscription? = null
 
     override fun onResume() {
         super.onResume()
-
-        shootSubscription = shoot()
-
+        shootSubscription = presenter.start()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .bindToLifecycle(this).subscribe { }
     }
-
-    fun shoot() = Observable.just(1)
-            .bindToLifecycle(this)
-            .observeOn(AndroidSchedulers.mainThread())
-            .map {
-                cameraPreview.preview { callback(it) }
-            }
-            .repeatWhen {
-                it.delay(3, TimeUnit.SECONDS)
-            }
-            .subscribe {
-                Log.d("shoot", "start");
-            }
-
 
     override fun onPause() {
         super.onPause()
-        cameraPreview.release()
+        presenter.pause()
     }
 
-    val callback = { bitmap: Bitmap ->
-        barcodeUseCase.read(bitmap)
-                .bindToLifecycle(this@CameraFragment)
+    override fun read(o: Observable<Barcode>) {
+        o.bindToLifecycle(this)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .take(1)
                 .subscribe {
                     toast(it.rawValue)
                     shootSubscription?.unsubscribe()
                 }
     }
+
 
 }

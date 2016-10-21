@@ -1,6 +1,6 @@
 package com.kamedon.boardgamemanager.di
 
-import com.kamedon.boardgamemanager.presentation.ui.camera.CameraFragment
+import com.kamedon.boardgamemanager.presentation.presenter.BarcodePresenter
 import dagger.Component
 import javax.inject.Singleton
 
@@ -10,6 +10,5 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = arrayOf(AppModule::class, InfraModule::class, PresentationModule::class))
 interface ApplicationComponent {
-    fun inject(cameraFragment: CameraFragment)
-//    fun plus(activityModule: ActivityModule): ActivityComponent
+    fun inject(presenter: BarcodePresenter)
 }
