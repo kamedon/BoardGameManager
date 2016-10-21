@@ -1,16 +1,30 @@
 package com.kamedon.boardgamemanager
 
 import android.app.Application
+import com.kamedon.boardgamemanager.di.*
 import com.squareup.leakcanary.LeakCanary
+import timber.log.Timber
 
 /**
  * Created by kamei.hidetoshi on 2016/10/21.
  */
 class KApplication : Application() {
 
+    //    val di: ApplicationComponent by lazy {
+//    }
+    lateinit var di: ApplicationComponent
+
     override fun onCreate() {
         super.onCreate()
         LeakCanary.install(this)
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+        di = DaggerApplicationComponent.builder()
+                .appModule(AppModule(this))
+                .infraModule(InfraModule())
+                .presentationModule(PresentationModule())
+                .build()
     }
 
 }

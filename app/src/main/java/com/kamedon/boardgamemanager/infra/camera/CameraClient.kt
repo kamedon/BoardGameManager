@@ -2,8 +2,6 @@ package com.kamedon.boardgamemanager.infra.camera
 
 import android.graphics.*
 import android.hardware.Camera
-import android.util.Log
-import rx.subjects.PublishSubject
 import java.io.ByteArrayOutputStream
 
 /**
@@ -17,8 +15,6 @@ object CameraClient {
     var mDefaultCameraId = INVALID_CAMERA_ID
     var mCurrentCameraId = INVALID_CAMERA_ID
     var focusing = false
-    val shootSubject = PublishSubject.create<Bitmap>()
-
     var camera: Camera? = null
 
     init {
@@ -84,11 +80,11 @@ object CameraClient {
         }
     }
 
-    fun shoot() {
+    fun shoot(f: (Bitmap) -> Unit) {
         camera?.setOneShotPreviewCallback { bytes: ByteArray, camera: Camera ->
             val previewWidth = camera.parameters.previewSize.width
             val previewHeight = camera.parameters.previewSize.height
-            shootSubject.onNext(bytesToBitmap(bytes, previewWidth, previewHeight))
+            f(bytesToBitmap(bytes, previewWidth, previewHeight))
         }
     }
 
