@@ -11,7 +11,6 @@ import com.kamedon.boardgamemanager.KApplication
 import com.kamedon.boardgamemanager.R
 import com.kamedon.boardgamemanager.domain.usecase.IBarcodeUseCase
 import com.kamedon.boardgamemanager.domain.usecase.ICameraOnePreviewUserCase
-import com.kamedon.boardgamemanager.infra.camera.CameraClient
 import com.kamedon.boardgamemanager.util.extensions.toast
 import com.trello.rxlifecycle.components.support.RxFragment
 import com.trello.rxlifecycle.kotlin.bindToLifecycle
@@ -74,7 +73,7 @@ class CameraFragment : RxFragment() {
 
     override fun onPause() {
         super.onPause()
-        CameraClient.release()
+        cameraPreview.release()
     }
 
     val callback = { bitmap: Bitmap ->

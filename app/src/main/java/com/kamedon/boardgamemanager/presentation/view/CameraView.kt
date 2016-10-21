@@ -13,6 +13,7 @@ import java.io.IOException
  * Created by kamei.hidetoshi on 2016/10/19.
  */
 
+// TODO: CameraViewもDaggerで差し込めるようにしたい
 class CameraView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,

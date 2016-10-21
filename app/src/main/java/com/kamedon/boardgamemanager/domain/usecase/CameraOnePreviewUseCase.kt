@@ -8,9 +8,13 @@ import com.kamedon.boardgamemanager.infra.camera.CameraClient
  */
 interface ICameraOnePreviewUserCase {
     fun preview(f: (Bitmap) -> Unit)
+    fun release()
 }
 
 class CameraOnePreviewUserCase(val camera: CameraClient) : ICameraOnePreviewUserCase {
+    override fun release() {
+        camera.release()
+    }
 
     override fun preview(f: (Bitmap) -> Unit) {
         CameraClient.autofocus { CameraClient.shoot(f) }
