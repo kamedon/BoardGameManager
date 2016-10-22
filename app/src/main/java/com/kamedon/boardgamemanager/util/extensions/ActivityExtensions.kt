@@ -25,3 +25,6 @@ fun Fragment.toast(message: String, duration: Int = Toast.LENGTH_LONG) {
 
 val Fragment.di: ApplicationComponent
     get() = (activity.application as KApplication).di
+
+val Activity.di: ApplicationComponent
+    get() = (application as KApplication).di

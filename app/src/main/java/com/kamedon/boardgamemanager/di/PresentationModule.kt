@@ -1,10 +1,7 @@
 package com.kamedon.boardgamemanager.di
 
 import com.google.android.gms.vision.barcode.BarcodeDetector
-import com.kamedon.boardgamemanager.domain.usecase.BarcodeUseCase
-import com.kamedon.boardgamemanager.domain.usecase.CameraOnePreviewUserCase
-import com.kamedon.boardgamemanager.domain.usecase.IBarcodeUseCase
-import com.kamedon.boardgamemanager.domain.usecase.ICameraOnePreviewUserCase
+import com.kamedon.boardgamemanager.domain.usecase.*
 import com.kamedon.boardgamemanager.infra.camera.CameraClient
 import dagger.Module
 import dagger.Provides
@@ -22,6 +19,10 @@ class PresentationModule() {
 
     @Provides
     @Singleton
-    fun provideOnePreviewUserCase(client: CameraClient): ICameraOnePreviewUserCase = CameraOnePreviewUserCase(client)
+    fun provideOnePreviewUseCase(client: CameraClient): ICameraOnePreviewUserCase = CameraOnePreviewUserCase(client)
+
+    @Provides
+    @Singleton
+    fun provideSignInUseCase(): ISignInUseCase = SignInUseCase()
 
 }

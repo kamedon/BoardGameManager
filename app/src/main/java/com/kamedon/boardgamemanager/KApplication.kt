@@ -10,8 +10,6 @@ import timber.log.Timber
  */
 class KApplication : Application() {
 
-    //    val di: ApplicationComponent by lazy {
-//    }
     lateinit var di: ApplicationComponent
 
     override fun onCreate() {
