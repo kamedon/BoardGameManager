@@ -82,6 +82,10 @@ dependencies {
     compile 'com.google.dagger:dagger:2.6.1'
     kapt 'com.google.dagger:dagger-compiler:2.6.1'
 
+    //kvs
+    kapt 'com.rejasupotaro:kvs-schema-compiler:5.0.1'
+    compile 'com.rejasupotaro:kvs-schema:5.0.1'
+
     //permission
     compile "com.github.hotchemi:permissionsdispatcher:+"
     kapt "com.github.hotchemi:permissionsdispatcher-processor:+"
