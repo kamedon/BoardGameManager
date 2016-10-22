@@ -1,5 +1,6 @@
 package com.kamedon.boardgamemanager.presentation.ui.signIn
 
+import android.content.Intent
 import android.os.Bundle
 import com.kamedon.boardgamemanager.R
 import com.kamedon.boardgamemanager.presentation.presenter.SignInPresenter
@@ -21,6 +22,22 @@ class SignInActivity : RxActivity(), SignInView {
         di.inject(presenter)
         findViewById(R.id.btnSignIn).setOnClickListener {
             presenter.signIn()
+        }
+    }
+
+    val RC_SIGN_IN = 1
+
+    override fun show(intent: Intent) {
+        startActivityForResult(intent, RC_SIGN_IN)
+    }
+
+    override fun showProgress() {
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode === RC_SIGN_IN) {
+            presenter.signInResult(data)
         }
     }
 

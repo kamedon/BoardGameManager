@@ -1,8 +1,11 @@
 package com.kamedon.boardgamemanager.di
 
+import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.google.firebase.auth.FirebaseAuth
 import com.kamedon.boardgamemanager.domain.usecase.*
 import com.kamedon.boardgamemanager.infra.camera.CameraClient
+import com.kamedon.boardgamemanager.infra.repository.ILoginRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -23,6 +26,6 @@ class PresentationModule() {
 
     @Provides
     @Singleton
-    fun provideSignInUseCase(): ISignInUseCase = SignInUseCase()
+    fun provideSignInUseCase(auth: FirebaseAuth, client: GoogleApiClient, repository: ILoginRepository): ISignInUseCase = SignInUseCase(auth, client, repository)
 
 }
