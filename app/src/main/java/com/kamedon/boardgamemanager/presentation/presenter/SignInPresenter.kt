@@ -12,6 +12,7 @@ import javax.inject.Inject
 interface SignInView {
     fun show(signIn: Intent)
     fun showProgress()
+    fun logined()
 }
 
 class SignInPresenter(val view: SignInView) {
@@ -31,6 +32,7 @@ class SignInPresenter(val view: SignInView) {
 
             override fun onComplete(user: User) {
                 Timber.d(user.toString())
+                view.logined()
             }
         })
     }

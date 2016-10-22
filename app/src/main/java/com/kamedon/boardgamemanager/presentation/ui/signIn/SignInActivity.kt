@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.kamedon.boardgamemanager.R
 import com.kamedon.boardgamemanager.presentation.presenter.SignInPresenter
 import com.kamedon.boardgamemanager.presentation.presenter.SignInView
+import com.kamedon.boardgamemanager.presentation.ui.boardgame.BoardGameListActivity
 import com.kamedon.boardgamemanager.util.extensions.di
 import com.trello.rxlifecycle.components.RxActivity
 
@@ -39,6 +40,10 @@ class SignInActivity : RxActivity(), SignInView {
         if (requestCode === RC_SIGN_IN) {
             presenter.signInResult(data)
         }
+    }
+
+    override fun logined() {
+        startActivity(Intent(applicationContext, BoardGameListActivity::class.java))
     }
 
 }
