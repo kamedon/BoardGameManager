@@ -25,7 +25,11 @@
         <activity
             android:name=".presentation.ui.camera.CameraActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".presentation.ui.boardgame.BoardGameListActivity"></activity>
+        <activity android:name=".presentation.ui.boardgame.BoardGameListActivity" />
+        <activity
+            android:name=".presentation.ui.boardgame.BoardGamesActivity"
+            android:label="@string/title_activity_board_games"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

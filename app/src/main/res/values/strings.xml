@@ -17,6 +17,7 @@
     <string name="permission_camera_never_askagain">Camera permission was denied with never ask again.</string>
     <string name="button_allow">Allow</string>
     <string name="action_sign_up">Sign In</string>
+    <string name="title_activity_board_games">BoardGamesActivity</string>
 
 
 </resources>

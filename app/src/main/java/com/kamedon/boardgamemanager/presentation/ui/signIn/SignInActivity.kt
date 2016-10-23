@@ -8,7 +8,7 @@ import com.kamedon.boardgamemanager.domain.usecase.ISecureUseCase
 import com.kamedon.boardgamemanager.presentation.presenter.SignInPresenter
 import com.kamedon.boardgamemanager.presentation.presenter.SignInView
 import com.kamedon.boardgamemanager.presentation.ui.base.SecurityActivity
-import com.kamedon.boardgamemanager.presentation.ui.boardgame.BoardGameListActivity
+import com.kamedon.boardgamemanager.presentation.ui.boardgame.BoardGamesActivity
 import com.kamedon.boardgamemanager.util.extensions.di
 
 /**
@@ -58,7 +58,7 @@ class SignInActivity : SecurityActivity(), SignInView {
     }
 
     private fun go() {
-        val intent = Intent(applicationContext, BoardGameListActivity::class.java)
+        val intent = Intent(applicationContext, BoardGamesActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
         finish()
