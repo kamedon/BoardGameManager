@@ -37,4 +37,6 @@ class SignInPresenter(val view: SignInView) {
         })
     }
 
+    fun logined(): Boolean = signInUseCase.logined()
+
 }

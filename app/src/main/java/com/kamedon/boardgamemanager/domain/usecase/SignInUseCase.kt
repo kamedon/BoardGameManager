@@ -14,6 +14,7 @@ import com.kamedon.boardgamemanager.util.extensions.toUser
  * Created by kamei.hidetoshi on 2016/10/22.
  */
 interface ISignInUseCase {
+    fun logined(): Boolean
     fun signIn(): Intent
     fun result(data: Intent?, listener: Listener)
 
@@ -21,10 +22,13 @@ interface ISignInUseCase {
         fun onFail(e: Exception)
         fun onComplete(user: User)
     }
+
 }
+
 
 class SignInUseCase(val auth: FirebaseAuth, val client: GoogleApiClient, val repository: ILoginRepository) : ISignInUseCase {
 
+    override fun logined() = repository.logined()
     override fun signIn() = Auth.GoogleSignInApi.getSignInIntent(client)
     override fun result(data: Intent?, listener: ISignInUseCase.Listener) {
         val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)

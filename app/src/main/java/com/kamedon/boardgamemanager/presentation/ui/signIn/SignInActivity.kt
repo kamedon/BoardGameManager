@@ -14,6 +14,7 @@ import com.trello.rxlifecycle.components.RxActivity
  */
 class SignInActivity : RxActivity(), SignInView {
 
+    val RC_SIGN_IN = 1
     lateinit var presenter: SignInPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +27,13 @@ class SignInActivity : RxActivity(), SignInView {
         }
     }
 
-    val RC_SIGN_IN = 1
+    override fun onStart() {
+        super.onStart()
+        if (presenter.logined()) {
+            go()
+        }
+    }
+
 
     override fun show(intent: Intent) {
         startActivityForResult(intent, RC_SIGN_IN)
@@ -43,7 +50,14 @@ class SignInActivity : RxActivity(), SignInView {
     }
 
     override fun logined() {
-        startActivity(Intent(applicationContext, BoardGameListActivity::class.java))
+        go()
+    }
+
+    private fun go() {
+        val intent = Intent(applicationContext, BoardGameListActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
+        finish()
     }
 
 }
