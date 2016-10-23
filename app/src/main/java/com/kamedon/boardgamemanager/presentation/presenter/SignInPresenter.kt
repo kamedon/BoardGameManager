@@ -22,7 +22,6 @@ class SignInPresenter(val view: SignInView) {
 
     fun signIn() {
         view.show(signInUseCase.signIn())
-
     }
 
     fun signInResult(data: Intent?) {
@@ -36,7 +35,5 @@ class SignInPresenter(val view: SignInView) {
             }
         })
     }
-
-    fun logined(): Boolean = signInUseCase.logined()
 
 }

@@ -23,5 +23,9 @@ class SecurePresenter(val view: SecureView) {
         secureUseCase.onStop()
     }
 
+    fun signOut() {
+        secureUseCase.signOut()
+    }
+
 
 }

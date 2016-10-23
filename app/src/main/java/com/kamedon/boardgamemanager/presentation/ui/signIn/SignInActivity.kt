@@ -3,16 +3,18 @@ package com.kamedon.boardgamemanager.presentation.ui.signIn
 import android.content.Intent
 import android.os.Bundle
 import com.kamedon.boardgamemanager.R
+import com.kamedon.boardgamemanager.domain.entity.User
+import com.kamedon.boardgamemanager.domain.usecase.ISecureUseCase
 import com.kamedon.boardgamemanager.presentation.presenter.SignInPresenter
 import com.kamedon.boardgamemanager.presentation.presenter.SignInView
+import com.kamedon.boardgamemanager.presentation.ui.base.SecurityActivity
 import com.kamedon.boardgamemanager.presentation.ui.boardgame.BoardGameListActivity
 import com.kamedon.boardgamemanager.util.extensions.di
-import com.trello.rxlifecycle.components.RxActivity
 
 /**
  * Created by kamei.hidetoshi on 2016/10/22.
  */
-class SignInActivity : RxActivity(), SignInView {
+class SignInActivity : SecurityActivity(), SignInView {
 
     val RC_SIGN_IN = 1
     lateinit var presenter: SignInPresenter
@@ -27,14 +29,6 @@ class SignInActivity : RxActivity(), SignInView {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (presenter.logined()) {
-            go()
-        }
-    }
-
-
     override fun show(intent: Intent) {
         startActivityForResult(intent, RC_SIGN_IN)
     }
@@ -47,6 +41,16 @@ class SignInActivity : RxActivity(), SignInView {
         if (requestCode === RC_SIGN_IN) {
             presenter.signInResult(data)
         }
+    }
+
+    override fun createSecurityListener(): ISecureUseCase.Listener = object : ISecureUseCase.Listener {
+        override fun onSignIn(user: User) {
+            go()
+        }
+
+        override fun onYetSignIn() {
+        }
+
     }
 
     override fun logined() {

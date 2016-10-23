@@ -12,15 +12,19 @@ import com.kamedon.boardgamemanager.util.extensions.toUser
 interface ISecureUseCase {
     fun onStart(listener: Listener)
     fun onStop()
+    fun signOut()
 
     interface Listener {
         fun onSignIn(user: User)
         fun onYetSignIn()
     }
-
 }
 
 class SecureUseCase(val auth: FirebaseAuth, val repository: ILoginRepository) : ISecureUseCase {
+    override fun signOut() {
+        auth.signOut()
+        repository.signOut()
+    }
 
     lateinit var authStateListener: FirebaseAuth.AuthStateListener
 
@@ -39,5 +43,6 @@ class SecureUseCase(val auth: FirebaseAuth, val repository: ILoginRepository) : 
 
     override fun onStop() {
         auth.removeAuthStateListener(authStateListener)
+        repository.signOut()
     }
 }

@@ -34,4 +34,9 @@ open abstract class SecurityActivity : RxActivity(), SecureView {
         super.onStop()
         securePresenter.onStop()
     }
+
+    fun signOut() {
+        securePresenter.signOut()
+    }
+
 }
