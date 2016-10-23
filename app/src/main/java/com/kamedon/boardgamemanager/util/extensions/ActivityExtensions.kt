@@ -2,10 +2,12 @@ package com.kamedon.boardgamemanager.util.extensions
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.support.v4.app.Fragment
 import android.widget.Toast
 import com.kamedon.boardgamemanager.KApplication
 import com.kamedon.boardgamemanager.di.ApplicationComponent
+import com.kamedon.boardgamemanager.presentation.ui.base.Page
 
 /**
  * Created by kamei.hidetoshi on 2016/10/20.
@@ -28,3 +30,6 @@ val Fragment.di: ApplicationComponent
 
 val Activity.di: ApplicationComponent
     get() = (application as KApplication).di
+
+inline fun Activity.go(page: Page, f: Intent.() -> Intent) = startActivity(f(page.intent(applicationContext)))
+fun Activity.go(page: Page) = startActivity(page.intent(applicationContext))

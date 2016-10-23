@@ -29,7 +29,6 @@ class PresentationModule() {
     fun provideSignInUseCase(auth: FirebaseAuth, client: GoogleApiClient, repository: ILoginRepository): ISignInUseCase = SignInUseCase(auth, client, repository)
 
     @Provides
-    @Singleton
     fun provideSecureUseCase(auth: FirebaseAuth, repository: ILoginRepository): ISecureUseCase = SecureUseCase(auth, repository)
 
 }

@@ -18,6 +18,8 @@
     <string name="button_allow">Allow</string>
     <string name="action_sign_up">Sign In</string>
     <string name="title_activity_board_games">BoardGamesActivity</string>
-
+    <string name="page_sign_in">SignIn</string>
+    <string name="page_borad_games">BoardGames</string>
+    <string name="page_camera">Camera</string>
 
 </resources>

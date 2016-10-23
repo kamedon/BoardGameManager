@@ -2,14 +2,16 @@ package com.kamedon.boardgamemanager.presentation.ui.signIn
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.kamedon.boardgamemanager.R
 import com.kamedon.boardgamemanager.domain.entity.User
 import com.kamedon.boardgamemanager.domain.usecase.ISecureUseCase
 import com.kamedon.boardgamemanager.presentation.presenter.SignInPresenter
 import com.kamedon.boardgamemanager.presentation.presenter.SignInView
+import com.kamedon.boardgamemanager.presentation.ui.base.Page
 import com.kamedon.boardgamemanager.presentation.ui.base.SecurityActivity
-import com.kamedon.boardgamemanager.presentation.ui.boardgame.BoardGamesActivity
 import com.kamedon.boardgamemanager.util.extensions.di
+import com.kamedon.boardgamemanager.util.extensions.go
 
 /**
  * Created by kamei.hidetoshi on 2016/10/22.
@@ -18,6 +20,10 @@ class SignInActivity : SecurityActivity(), SignInView {
 
     val RC_SIGN_IN = 1
     lateinit var presenter: SignInPresenter
+
+    val progressView: View by lazy {
+        findViewById(R.id.progress)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +35,17 @@ class SignInActivity : SecurityActivity(), SignInView {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        progressView.visibility = View.GONE
+    }
+
     override fun show(intent: Intent) {
         startActivityForResult(intent, RC_SIGN_IN)
     }
 
     override fun showProgress() {
+        progressView.visibility = View.VISIBLE
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -45,7 +57,10 @@ class SignInActivity : SecurityActivity(), SignInView {
 
     override fun createSecurityListener(): ISecureUseCase.Listener = object : ISecureUseCase.Listener {
         override fun onSignIn(user: User) {
-            go()
+            go(Page.BOARD_GAMES) {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            }
+            finish()
         }
 
         override fun onYetSignIn() {
@@ -54,13 +69,9 @@ class SignInActivity : SecurityActivity(), SignInView {
     }
 
     override fun logined() {
-        go()
-    }
-
-    private fun go() {
-        val intent = Intent(applicationContext, BoardGamesActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(intent)
+        go(Page.BOARD_GAMES) {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        }
         finish()
     }
 
