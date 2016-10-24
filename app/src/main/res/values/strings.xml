@@ -26,12 +26,15 @@
     <string name="dialog_title_boardgame">Board Game</string>
 
     <!-- Action -->
-    <string name="action_register_from_barcode">by Barcode</string>
+    <string name="action_register_from_barcode">Barcode</string>
     <string name="action_register_from_form">by Form</string>
     <string name="button_allow">Allow</string>
     <string name="action_sign_up">Sign In</string>
 
     <!-- Text -->
     <string name="title_activity_board_games">BoardGamesActivity</string>
+    <string name="prompt_barcode">Barcode</string>
+    <string name="action_register">Register</string>
+    <string name="prompt_name">Name</string>
 
 </resources>

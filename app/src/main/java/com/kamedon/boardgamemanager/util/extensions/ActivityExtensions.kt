@@ -33,3 +33,6 @@ val Activity.di: ApplicationComponent
 
 inline fun Activity.go(page: Page, f: Intent.() -> Intent) = startActivity(f(page.intent(applicationContext)))
 fun Activity.go(page: Page) = startActivity(page.intent(applicationContext))
+
+inline fun Activity.goForResult(page: Page, requestId: Int, f: Intent.() -> Intent) = startActivityForResult(f(page.intent(applicationContext)), requestId)
+fun Activity.goForResult(page: Page, requestId: Int) = startActivityForResult(page.intent(applicationContext), requestId)
