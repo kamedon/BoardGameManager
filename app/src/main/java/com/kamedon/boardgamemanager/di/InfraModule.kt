@@ -11,9 +11,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.kamedon.boardgamemanager.BuildConfig
 import com.kamedon.boardgamemanager.infra.camera.CameraClient
-import com.kamedon.boardgamemanager.infra.repository.ILoginRepository
-import com.kamedon.boardgamemanager.infra.repository.LoginPrefs
-import com.kamedon.boardgamemanager.infra.repository.LoginRepository
+import com.kamedon.boardgamemanager.infra.repository.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -29,6 +27,10 @@ class InfraModule() {
     @Provides
     @Singleton
     fun provideLoginRepository(context: Context): ILoginRepository = LoginRepository(LoginPrefs.get(context))
+
+    @Provides
+    @Singleton
+    fun provideBoardGameRepository(): IBoardGameRepository = BoardGameRepository()
 
     /*
      * Camera

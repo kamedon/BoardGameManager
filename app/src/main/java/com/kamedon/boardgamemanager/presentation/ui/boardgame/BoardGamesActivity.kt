@@ -9,14 +9,18 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import com.kamedon.boardgamemanager.R
 import com.kamedon.boardgamemanager.domain.entity.BoardGame
+import com.kamedon.boardgamemanager.presentation.presenter.BoardGameListPresenter
+import com.kamedon.boardgamemanager.presentation.presenter.BoardGameListView
+import com.kamedon.boardgamemanager.util.extensions.di
 
-class BoardGamesActivity : AppCompatActivity() {
+class BoardGamesActivity : AppCompatActivity(), BoardGameListView {
 
     val list: RecyclerView by lazy {
         findViewById(R.id.list) as RecyclerView
     }
 
     lateinit var adapter: BoardGameAdapter
+    lateinit var presenter: BoardGameListPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,10 +34,13 @@ class BoardGamesActivity : AppCompatActivity() {
         list.layoutManager = LinearLayoutManager(applicationContext);
         list.adapter = adapter
         (0..10).forEach {
-            var item = BoardGame()
+            val item = BoardGame()
             item.name = "$it: game"
             adapter.add(item)
         }
+
+        presenter = BoardGameListPresenter(this)
+        di.inject(presenter)
     }
 
 }
