@@ -5,5 +5,6 @@ package com.kamedon.boardgamemanager.presentation.ui.base
  */
 object RequestKey {
     val REQUEST_BARCODE = 1
+    val BUNDLE_KEY_BARCODE = "barcode"
 
 }

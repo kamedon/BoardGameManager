@@ -1,6 +1,9 @@
 package com.kamedon.boardgamemanager.presentation.ui.camera
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +12,7 @@ import com.google.android.gms.vision.barcode.Barcode
 import com.kamedon.boardgamemanager.R
 import com.kamedon.boardgamemanager.presentation.presenter.BarcodePresenter
 import com.kamedon.boardgamemanager.presentation.presenter.IBarcodeView
+import com.kamedon.boardgamemanager.presentation.ui.base.RequestKey
 import com.kamedon.boardgamemanager.util.extensions.di
 import com.kamedon.boardgamemanager.util.extensions.toast
 import com.trello.rxlifecycle.components.support.RxFragment
@@ -25,15 +29,25 @@ import rx.schedulers.Schedulers
 class CameraFragment : RxFragment(), IBarcodeView {
 
     companion object {
-        fun newInstance() = CameraFragment()
+        val KEY_FOR_REQUEST = "key_for_request"
+
+        fun newInstance(forRequest: Boolean): Fragment {
+            var fragment = CameraFragment()
+            var bundle = Bundle()
+            bundle.putBoolean(KEY_FOR_REQUEST, forRequest)
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 
     lateinit var presenter: BarcodePresenter
     lateinit var image: ImageView
     private var shootSubscription: Subscription? = null
+    var forRequest: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        forRequest = arguments.getBoolean(KEY_FOR_REQUEST)
         presenter = BarcodePresenter(this)
         di.inject(presenter)
     }
@@ -66,6 +80,12 @@ class CameraFragment : RxFragment(), IBarcodeView {
                 .subscribe {
                     toast(it.rawValue)
                     shootSubscription?.unsubscribe()
+                    if (forRequest) {
+                        var intent = Intent()
+                        intent.putExtra(RequestKey.BUNDLE_KEY_BARCODE, it.rawValue)
+                        activity.setResult(Activity.RESULT_OK, intent)
+                        activity.finish()
+                    }
                 }
     }
 

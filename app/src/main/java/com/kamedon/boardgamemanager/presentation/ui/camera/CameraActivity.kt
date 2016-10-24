@@ -11,9 +11,12 @@ import permissions.dispatcher.*
 @RuntimePermissions
 class CameraActivity : AppCompatActivity() {
 
+    private var forRequest: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
+        forRequest = intent != null
         CameraActivityPermissionsDispatcher.showCameraWithCheck(this)
     }
 
@@ -27,7 +30,7 @@ class CameraActivity : AppCompatActivity() {
     @NeedsPermission(Manifest.permission.CAMERA)
     fun showCamera() {
         // NOTE: Perform action that requires the permission. If this is run by PermissionsDispatcher, the permission will have been granted
-        supportFragmentManager.beginTransaction().replace(R.id.fragment, CameraFragment.newInstance()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.fragment, CameraFragment.newInstance(forRequest)).commit()
     }
 
 
