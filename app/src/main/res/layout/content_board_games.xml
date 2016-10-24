@@ -13,4 +13,10 @@
     tools:context="com.kamedon.boardgamemanager.presentation.ui.boardgame.BoardGamesActivity"
     tools:showIn="@layout/activity_board_games">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
+
 </RelativeLayout>
