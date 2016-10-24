@@ -10,10 +10,17 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.kamedon.boardgamemanager.BuildConfig
+import com.kamedon.boardgamemanager.infra.api.RakutenApi
 import com.kamedon.boardgamemanager.infra.camera.CameraClient
 import com.kamedon.boardgamemanager.infra.repository.*
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 /**
@@ -21,6 +28,34 @@ import javax.inject.Singleton
  */
 @Module
 class InfraModule() {
+    /*
+     * API
+     */
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient {
+        var builder = OkHttpClient.Builder()
+        builder.connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+        if (BuildConfig.DEBUG) {
+            val loggingInterceptor = HttpLoggingInterceptor()
+            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            return builder.addInterceptor(loggingInterceptor).build()
+        }
+        return builder.build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRakutenApi(okHttpClient: OkHttpClient): RakutenApi = Retrofit.Builder()
+            .baseUrl(BuildConfig.RAKUTEN_API_ENDPOINT)
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+            .create(RakutenApi::class.java)
+
     /*
      * Rrepository
      */
@@ -31,6 +66,10 @@ class InfraModule() {
     @Provides
     @Singleton
     fun provideBoardGameRepository(): IBoardGameRepository = BoardGameRepository()
+
+    @Provides
+    @Singleton
+    fun provideRakutenRepository(api: RakutenApi): IRakutenRepository = RakutenRepository(api)
 
     /*
      * Camera
@@ -70,4 +109,6 @@ class InfraModule() {
     fun provideGoogleSignInClient(context: Context, options: GoogleSignInOptions) = GoogleApiClient.Builder(context)
             .addApi(Auth.GOOGLE_SIGN_IN_API, options)
             .build()
+
+
 }

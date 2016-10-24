@@ -1,6 +1,7 @@
 package com.kamedon.boardgamemanager.presentation.presenter
 
 import com.kamedon.boardgamemanager.domain.usecase.IBoardGameUseCase
+import com.kamedon.boardgamemanager.infra.repository.IRakutenRepository
 import javax.inject.Inject
 
 /**
@@ -12,5 +13,17 @@ interface BoardGameRegisterView {
 class BoardGameRegisterPresenter(val view: BoardGameRegisterView) {
     @Inject
     lateinit var useCase: IBoardGameUseCase
+
+    @Inject
+    lateinit var repository: IRakutenRepository
+
+    fun searchBy(keyword: String) = repository.search(keyword)
+            .filter {
+                it.count > 0
+            }
+            .map {
+                it.Items[0].Item
+            }
+
 
 }

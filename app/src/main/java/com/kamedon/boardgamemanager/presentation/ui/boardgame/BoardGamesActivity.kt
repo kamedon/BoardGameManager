@@ -2,7 +2,6 @@ package com.kamedon.boardgamemanager.presentation.ui.boardgame
 
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -12,10 +11,11 @@ import com.kamedon.boardgamemanager.domain.entity.BoardGame
 import com.kamedon.boardgamemanager.presentation.presenter.BoardGameListPresenter
 import com.kamedon.boardgamemanager.presentation.presenter.BoardGameListView
 import com.kamedon.boardgamemanager.presentation.ui.base.Page
+import com.kamedon.boardgamemanager.presentation.ui.base.SecurityActivity
 import com.kamedon.boardgamemanager.util.extensions.di
 import com.kamedon.boardgamemanager.util.extensions.go
 
-class BoardGamesActivity : AppCompatActivity(), BoardGameListView {
+class BoardGamesActivity : SecurityActivity(), BoardGameListView {
 
     val list: RecyclerView by lazy {
         findViewById(R.id.list) as RecyclerView
@@ -47,6 +47,7 @@ class BoardGamesActivity : AppCompatActivity(), BoardGameListView {
 
         listPresenter = BoardGameListPresenter(this)
         di.inject(listPresenter)
+
     }
 
 }

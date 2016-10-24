@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.kamedon.boardgamemanager.KApplication
 import com.kamedon.boardgamemanager.di.ApplicationComponent
@@ -36,3 +37,12 @@ fun Activity.go(page: Page) = startActivity(page.intent(applicationContext))
 
 inline fun Activity.goForResult(page: Page, requestId: Int, f: Intent.() -> Intent) = startActivityForResult(f(page.intent(applicationContext)), requestId)
 fun Activity.goForResult(page: Page, requestId: Int) = startActivityForResult(page.intent(applicationContext), requestId)
+
+val AppCompatActivity.di: ApplicationComponent
+    get() = (application as KApplication).di
+
+inline fun AppCompatActivity.go(page: Page, f: Intent.() -> Intent) = startActivity(f(page.intent(applicationContext)))
+fun AppCompatActivity.go(page: Page) = startActivity(page.intent(applicationContext))
+
+inline fun AppCompatActivity.goForResult(page: Page, requestId: Int, f: Intent.() -> Intent) = startActivityForResult(f(page.intent(applicationContext)), requestId)
+fun AppCompatActivity.goForResult(page: Page, requestId: Int) = startActivityForResult(page.intent(applicationContext), requestId)

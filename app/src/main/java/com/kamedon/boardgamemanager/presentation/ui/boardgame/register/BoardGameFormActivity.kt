@@ -3,18 +3,23 @@ package com.kamedon.boardgamemanager.presentation.ui.boardgame.register
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.EditText
 import com.kamedon.boardgamemanager.R
+import com.kamedon.boardgamemanager.domain.entity.reponse.RakutenItem
 import com.kamedon.boardgamemanager.presentation.presenter.BoardGameRegisterPresenter
 import com.kamedon.boardgamemanager.presentation.presenter.BoardGameRegisterView
 import com.kamedon.boardgamemanager.presentation.ui.base.Page
 import com.kamedon.boardgamemanager.presentation.ui.base.RequestKey
+import com.kamedon.boardgamemanager.presentation.ui.base.SecurityActivity
 import com.kamedon.boardgamemanager.util.extensions.di
 import com.kamedon.boardgamemanager.util.extensions.goForResult
+import com.trello.rxlifecycle.kotlin.bindToLifecycle
+import rx.Observer
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
-class BoardGameFormActivity : AppCompatActivity(), BoardGameRegisterView {
+class BoardGameFormActivity : SecurityActivity(), BoardGameRegisterView {
 
     lateinit var registerPresenter: BoardGameRegisterPresenter
 
@@ -26,6 +31,10 @@ class BoardGameFormActivity : AppCompatActivity(), BoardGameRegisterView {
         findViewById(R.id.editBarcode) as EditText
     }
 
+    val editName: EditText by lazy {
+        findViewById(R.id.editName) as EditText
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_game_register)
@@ -34,6 +43,8 @@ class BoardGameFormActivity : AppCompatActivity(), BoardGameRegisterView {
         btnBarcode.setOnClickListener {
             goForResult(Page.CAMERA, RequestKey.REQUEST_BARCODE)
         }
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -42,6 +53,22 @@ class BoardGameFormActivity : AppCompatActivity(), BoardGameRegisterView {
             RequestKey.REQUEST_BARCODE -> if (resultCode == Activity.RESULT_OK) {
                 data?.getStringExtra("barcode")?.let {
                     editBarcode.setText(it)
+                    registerPresenter.searchBy(it)
+                            .bindToLifecycle(this)
+                            .subscribeOn(Schedulers.newThread())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(object : Observer<RakutenItem> {
+                                override fun onError(e: Throwable) {
+                                    e.printStackTrace()
+                                }
+
+                                override fun onCompleted() {
+                                }
+
+                                override fun onNext(item: RakutenItem) {
+                                    editName.setText(item.itemName)
+                                }
+                            })
                 }
                 return
             }

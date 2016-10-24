@@ -17,6 +17,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        buildConfigField("String", "RAKUTEN_API_ENDPOINT", "\"https://app.rakuten.co.jp/\"")
     }
     apply from: 'signingConfigs/debug.gradle', to: android
     apply from: 'signingConfigs/release.gradle', to: android
@@ -75,6 +76,21 @@ dependencies {
     //Log
     compile 'com.jakewharton.timber:timber:4.3.1'
 
+    //OkHttp
+    compile 'com.squareup.okhttp3:okhttp:3.+'
+    compile "com.squareup.okhttp3:okhttp-urlconnection:3.+"
+    compile 'com.squareup.okhttp3:logging-interceptor:3.+'
+
+    // Retrofit
+    compile('com.squareup.retrofit2:retrofit:2.+') {
+        exclude module: 'okhttp'
+    }
+    compile 'com.squareup.retrofit2:adapter-rxjava:+'
+    compile 'com.squareup.retrofit2:converter-gson:+'
+
+    //Gson
+    compile "com.google.code.gson:gson:2.2.4"
+
     //Rx
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxkotlin:0.60.0'
@@ -91,9 +107,6 @@ dependencies {
     //Dagger2
     compile 'com.google.dagger:dagger:2.6.1'
     kapt 'com.google.dagger:dagger-compiler:2.6.1'
-
-    //Gson
-    compile "com.google.code.gson:gson:2.2.4"
 
     //permission
     compile "com.github.hotchemi:permissionsdispatcher:+"
