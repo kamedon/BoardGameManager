@@ -11,16 +11,19 @@ import com.kamedon.boardgamemanager.R
 import com.kamedon.boardgamemanager.domain.entity.BoardGame
 import com.kamedon.boardgamemanager.presentation.presenter.BoardGameListPresenter
 import com.kamedon.boardgamemanager.presentation.presenter.BoardGameListView
+import com.kamedon.boardgamemanager.presentation.presenter.BoardGameRegisterPresenter
+import com.kamedon.boardgamemanager.presentation.presenter.BoardGameRegisterView
 import com.kamedon.boardgamemanager.util.extensions.di
 
-class BoardGamesActivity : AppCompatActivity(), BoardGameListView {
+class BoardGamesActivity : AppCompatActivity(), BoardGameListView, BoardGameRegisterView {
 
     val list: RecyclerView by lazy {
         findViewById(R.id.list) as RecyclerView
     }
 
     lateinit var adapter: BoardGameAdapter
-    lateinit var presenter: BoardGameListPresenter
+    lateinit var listPresenter: BoardGameListPresenter
+    lateinit var registerPresenter: BoardGameRegisterPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +42,10 @@ class BoardGamesActivity : AppCompatActivity(), BoardGameListView {
             adapter.add(item)
         }
 
-        presenter = BoardGameListPresenter(this)
-        di.inject(presenter)
+        listPresenter = BoardGameListPresenter(this)
+        registerPresenter = BoardGameRegisterPresenter(this)
+        di.inject(listPresenter)
+        di.inject(registerPresenter)
     }
 
 }

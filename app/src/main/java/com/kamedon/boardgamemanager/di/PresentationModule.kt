@@ -35,6 +35,7 @@ class PresentationModule() {
 
     @Provides
     @Singleton
-    fun provideBoradGameUseCase(repository: IBoardGameRepository): IBoardGameUseCase = BoardGameUseCase(repository)
+    fun provideBoardGameUseCase(repository: IBoardGameRepository): IBoardGameUseCase = BoardGameUseCase(repository)
+
 
 }

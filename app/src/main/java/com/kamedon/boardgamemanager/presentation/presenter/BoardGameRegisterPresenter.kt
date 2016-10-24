@@ -6,10 +6,10 @@ import javax.inject.Inject
 /**
  * Created by kamei.hidetoshi on 2016/10/24.
  */
+interface BoardGameRegisterView {
+}
 
-interface BoardGameListView
-
-class BoardGameListPresenter(val view: BoardGameListView) {
+class BoardGameRegisterPresenter(val view: BoardGameRegisterView) {
     @Inject
     lateinit var useCase: IBoardGameUseCase
 

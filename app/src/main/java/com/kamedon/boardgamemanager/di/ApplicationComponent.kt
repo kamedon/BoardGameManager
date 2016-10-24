@@ -1,9 +1,6 @@
 package com.kamedon.boardgamemanager.di
 
-import com.kamedon.boardgamemanager.presentation.presenter.BarcodePresenter
-import com.kamedon.boardgamemanager.presentation.presenter.BoardGameListPresenter
-import com.kamedon.boardgamemanager.presentation.presenter.SecurePresenter
-import com.kamedon.boardgamemanager.presentation.presenter.SignInPresenter
+import com.kamedon.boardgamemanager.presentation.presenter.*
 import dagger.Component
 import javax.inject.Singleton
 
@@ -17,4 +14,5 @@ interface ApplicationComponent {
     fun inject(presenter: SignInPresenter)
     fun inject(presenter: SecurePresenter)
     fun inject(presenter: BoardGameListPresenter)
+    fun inject(presenter: BoardGameRegisterPresenter)
 }
