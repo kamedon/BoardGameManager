@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.res.Resources
 import com.kamedon.boardgamemanager.R
 import com.kamedon.boardgamemanager.presentation.ui.boardgame.BoardGamesActivity
+import com.kamedon.boardgamemanager.presentation.ui.boardgame.register.BoardGameFormActivity
 import com.kamedon.boardgamemanager.presentation.ui.camera.CameraActivity
 import com.kamedon.boardgamemanager.presentation.ui.signIn.SignInActivity
 
@@ -19,6 +20,8 @@ enum class Page(val nameId: Int, val page: Class<out Activity>) {
         }
     },
     BOARD_GAMES(R.string.page_borad_games, BoardGamesActivity::class.java),
+    BOARD_GAME_FORM(R.string.page_borad_game_form, BoardGameFormActivity::class.java),
+
     CAMERA(R.string.page_camera, CameraActivity::class.java);
 
     open fun intent(context: Context) = Intent(context, page)
