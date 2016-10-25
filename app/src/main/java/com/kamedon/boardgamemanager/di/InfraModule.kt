@@ -65,11 +65,11 @@ class InfraModule() {
 
     @Provides
     @Singleton
-    fun provideBoardGameRepository(): IBoardGameRepository = BoardGameRepository()
+    fun provideRakutenRepository(api: RakutenApi): IRakutenRepository = RakutenRepository(api)
 
     @Provides
     @Singleton
-    fun provideRakutenRepository(api: RakutenApi): IRakutenRepository = RakutenRepository(api)
+    fun provideBoardGameRepository(database: FirebaseDatabase): IBoardGameRepository = BoardGameRepository(database)
 
     /*
      * Camera

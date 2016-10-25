@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import com.kamedon.boardgamemanager.R
+import com.kamedon.boardgamemanager.domain.entity.BoardGame
 import com.kamedon.boardgamemanager.domain.entity.reponse.RakutenItem
 import com.kamedon.boardgamemanager.presentation.presenter.BoardGameRegisterPresenter
 import com.kamedon.boardgamemanager.presentation.presenter.BoardGameRegisterView
@@ -21,7 +22,7 @@ import rx.schedulers.Schedulers
 
 class BoardGameFormActivity : SecurityActivity(), BoardGameRegisterView {
 
-    lateinit var registerPresenter: BoardGameRegisterPresenter
+    lateinit var presenter: BoardGameRegisterPresenter
 
     val btnBarcode: View by lazy {
         findViewById(R.id.btnBarcode)
@@ -35,16 +36,26 @@ class BoardGameFormActivity : SecurityActivity(), BoardGameRegisterView {
         findViewById(R.id.editName) as EditText
     }
 
+    val btnSubmit: View by lazy {
+        findViewById(R.id.btnSubmit)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_game_register)
-        registerPresenter = BoardGameRegisterPresenter(this)
-        di.inject(registerPresenter)
+        presenter = BoardGameRegisterPresenter(this)
+        di.inject(presenter)
         btnBarcode.setOnClickListener {
             goForResult(Page.CAMERA, RequestKey.REQUEST_BARCODE)
         }
 
-
+        btnSubmit.setOnClickListener {
+            val game: BoardGame = BoardGame()
+            game.barcode = editBarcode.text.toString()
+            game.name = editName.text.toString()
+            presenter.save(game)
+            finish()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -53,7 +64,7 @@ class BoardGameFormActivity : SecurityActivity(), BoardGameRegisterView {
             RequestKey.REQUEST_BARCODE -> if (resultCode == Activity.RESULT_OK) {
                 data?.getStringExtra("barcode")?.let {
                     editBarcode.setText(it)
-                    registerPresenter.searchBy(it)
+                    presenter.searchBy(it)
                             .bindToLifecycle(this)
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())

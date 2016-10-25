@@ -1,5 +1,6 @@
 package com.kamedon.boardgamemanager.presentation.presenter
 
+import com.kamedon.boardgamemanager.domain.entity.BoardGame
 import com.kamedon.boardgamemanager.domain.usecase.IBoardGameUseCase
 import com.kamedon.boardgamemanager.infra.repository.IRakutenRepository
 import javax.inject.Inject
@@ -25,5 +26,8 @@ class BoardGameRegisterPresenter(val view: BoardGameRegisterView) {
                 it.Items[0].Item
             }
 
+    fun save(boardGame: BoardGame) {
+        useCase.save(boardGame)
+    }
 
 }
