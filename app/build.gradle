@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
-ext.firebase_version = '9.6.1'
+ext.firebase_version = '9.8.0'
 ext.leakcanary_version = '1.5'
 ext.google_support_version = '25.0.0'
 ext.rxlifecycle_version = '0.5.0'
@@ -64,6 +64,7 @@ dependencies {
     compile "com.google.firebase:firebase-auth:$firebase_version"
     compile "com.google.firebase:firebase-storage:$firebase_version"
     compile "com.google.android.gms:play-services-auth:$firebase_version"
+    compile 'com.firebaseui:firebase-ui-database:0.6.2'
 
     //vision
     compile "com.google.android.gms:play-services-vision:$firebase_version"
