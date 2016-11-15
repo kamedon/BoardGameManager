@@ -15,10 +15,11 @@ import com.kamedon.boardgamemanager.presentation.ui.base.RequestKey
 import com.kamedon.boardgamemanager.presentation.ui.base.SecurityActivity
 import com.kamedon.boardgamemanager.util.extensions.di
 import com.kamedon.boardgamemanager.util.extensions.goForResult
-import com.trello.rxlifecycle.kotlin.bindToLifecycle
-import rx.Observer
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 class BoardGameFormActivity : SecurityActivity(), BoardGameRegisterView {
 
@@ -69,12 +70,16 @@ class BoardGameFormActivity : SecurityActivity(), BoardGameRegisterView {
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(object : Observer<RakutenItem> {
+                                override fun onSubscribe(d: Disposable?) {
+                                }
+
+                                override fun onComplete() {
+                                }
+
                                 override fun onError(e: Throwable) {
                                     e.printStackTrace()
                                 }
 
-                                override fun onCompleted() {
-                                }
 
                                 override fun onNext(item: RakutenItem) {
                                     editName.setText(item.itemName)
