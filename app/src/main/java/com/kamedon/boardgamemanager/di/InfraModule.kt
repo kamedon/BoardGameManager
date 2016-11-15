@@ -9,6 +9,7 @@ import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.kamedon.boardgamemanager.BuildConfig
 import com.kamedon.boardgamemanager.infra.api.RakutenApi
 import com.kamedon.boardgamemanager.infra.camera.CameraClient
@@ -18,7 +19,6 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -50,7 +50,7 @@ class InfraModule() {
     @Singleton
     fun provideRakutenApi(okHttpClient: OkHttpClient): RakutenApi = Retrofit.Builder()
             .baseUrl(BuildConfig.RAKUTEN_API_ENDPOINT)
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()

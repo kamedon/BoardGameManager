@@ -7,7 +7,7 @@ import com.kamedon.boardgamemanager.presentation.presenter.SecurePresenter
 import com.kamedon.boardgamemanager.presentation.presenter.SecureView
 import com.kamedon.boardgamemanager.util.extensions.di
 import com.kamedon.boardgamemanager.util.extensions.go
-import com.trello.rxlifecycle.components.support.RxAppCompatActivity
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 
 /**
  * Created by kamei.hidetoshi on 2016/10/23.

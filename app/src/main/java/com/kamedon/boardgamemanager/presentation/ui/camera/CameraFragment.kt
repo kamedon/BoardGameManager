@@ -15,12 +15,12 @@ import com.kamedon.boardgamemanager.presentation.presenter.IBarcodeView
 import com.kamedon.boardgamemanager.presentation.ui.base.RequestKey
 import com.kamedon.boardgamemanager.util.extensions.di
 import com.kamedon.boardgamemanager.util.extensions.toast
-import com.trello.rxlifecycle.components.support.RxFragment
-import com.trello.rxlifecycle.kotlin.bindToLifecycle
-import rx.Observable
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import com.trello.rxlifecycle2.components.support.RxFragment
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 
 /**
@@ -42,7 +42,6 @@ class CameraFragment : RxFragment(), IBarcodeView {
 
     lateinit var presenter: BarcodePresenter
     lateinit var image: ImageView
-    private var shootSubscription: Subscription? = null
     var forRequest: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,12 +58,14 @@ class CameraFragment : RxFragment(), IBarcodeView {
     }
 
 
+    private var  shootSubscription: Disposable? = null
+
     override fun onResume() {
         super.onResume()
         shootSubscription = presenter.loopOfShoot()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .bindToLifecycle(this).subscribe { }
+                .bindToLifecycle(this).subscribe()
     }
 
     override fun onPause() {
@@ -79,7 +80,7 @@ class CameraFragment : RxFragment(), IBarcodeView {
                 .take(1)
                 .subscribe {
                     toast(it.rawValue)
-                    shootSubscription?.unsubscribe()
+                    shootSubscription?.dispose()
                     if (forRequest) {
                         var intent = Intent()
                         intent.putExtra(RequestKey.BUNDLE_KEY_BARCODE, it.rawValue)

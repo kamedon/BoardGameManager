@@ -2,9 +2,9 @@ package com.kamedon.boardgamemanager.infra.api
 
 import com.kamedon.boardgamemanager.BuildConfig
 import com.kamedon.boardgamemanager.domain.entity.reponse.RakutenResponse
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
-import rx.Observable
 
 /**
  * Created by kamei.hidetoshi on 2016/10/24.
