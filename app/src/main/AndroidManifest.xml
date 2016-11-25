@@ -31,6 +31,7 @@
 
         <activity
             android:name=".presentation.ui.boardgame.BoardGamesActivity"
+            android:screenOrientation="portrait"
             android:label="@string/page_borad_games"
             android:theme="@style/AppTheme.NoActionBar" />
 

@@ -14,11 +14,10 @@ import java.io.IOException
  */
 
 // TODO: CameraViewもDaggerで差し込めるようにしたい
-class CameraView @JvmOverloads constructor(
+class BarcodeCameraView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0) : ViewGroup(context, attrs, defStyleAttr), SurfaceHolder.Callback {
-
     private val mSurfaceView: SurfaceView
 
     private var mHolder: SurfaceHolder

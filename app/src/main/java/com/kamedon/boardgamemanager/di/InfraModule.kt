@@ -1,6 +1,7 @@
 package com.kamedon.boardgamemanager.di
 
 import android.content.Context
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
@@ -39,6 +40,7 @@ class InfraModule() {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
         if (BuildConfig.DEBUG) {
+            builder.addNetworkInterceptor(StethoInterceptor())
             val loggingInterceptor = HttpLoggingInterceptor()
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
             return builder.addInterceptor(loggingInterceptor).build()

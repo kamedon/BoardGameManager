@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.kamedon.boardgamemanager.presentation.view.CameraView
+    <com.kamedon.boardgamemanager.presentation.view.BarcodeCameraView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
