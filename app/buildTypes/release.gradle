@@ -1,5 +1,6 @@
 buildTypes {
     release {
+        debuggable false
         minifyEnabled true
         shrinkResources true
         zipAlignEnabled true
