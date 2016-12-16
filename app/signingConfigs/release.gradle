@@ -1,9 +1,14 @@
 signingConfigs {
     release {
-        def signFile = file("../keystore/store-release.txt")
         def signingProps = new Properties()
-        signingProps.load(new FileInputStream(signFile))
-        storeFile file("../keystore/release.jks")
+        def sign = file("../keystore/store-release.txt")
+        def store = file("../keystore/release.jks")
+        if (!sign.exists() || !store.exists()) {
+            sign = file("../keystore/store-dev.txt")
+            store = file("../keystore/dev.jks")
+        }
+        storeFile store
+        signingProps.load(new FileInputStream(sign))
         keyAlias signingProps['KEY_ALIAS']
         storePassword signingProps['STORE_PASSWORD']
         keyPassword signingProps['KEY_PASSWORD']
