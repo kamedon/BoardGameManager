@@ -3,12 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.ben-manes.versions'
 
-ext.firebase_version = '10.0.1'
+ext.firebase_version = '10.2.0'
 ext.leakcanary_version = '1.5'
-ext.google_support_version = '25.1.0'
+ext.google_support_version = '25.1.1'
 ext.rxjava_version = '2.0.1'
 ext.rxlifecycle_version = '2.0.1'
-ext.okhttp3_version = '3.5.0'
+ext.okhttp3_version = '3.6.0'
 ext.dagger2_version = '2.8'
 ext.kvs_version = '5.0.1'
 ext.stetho_version = '1.4.2'
@@ -70,7 +70,7 @@ dependencies {
     compile "com.google.firebase:firebase-auth:$firebase_version"
     compile "com.google.firebase:firebase-storage:$firebase_version"
     compile "com.google.android.gms:play-services-auth:$firebase_version"
-    compile 'com.firebaseui:firebase-ui-database:1.0.1'
+    compile 'com.firebaseui:firebase-ui-database:1.2.0'
 
     //vision
     compile "com.google.android.gms:play-services-vision:$firebase_version"
@@ -81,7 +81,7 @@ dependencies {
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
 
     //Log
-    compile 'com.jakewharton.timber:timber:4.4.0'
+    compile 'com.jakewharton.timber:timber:4.5.1'
 
     //OkHttp
     compile "com.squareup.okhttp3:okhttp:$okhttp3_version"
@@ -89,11 +89,11 @@ dependencies {
     compile "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
 
     // Retrofit
-    compile("com.squareup.retrofit2:retrofit:2.1.0") {
+    compile("com.squareup.retrofit2:retrofit:2.2.0") {
         exclude module: 'okhttp'
     }
     compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
 
     //Gson
     compile "com.google.code.gson:gson:2.8.0"
