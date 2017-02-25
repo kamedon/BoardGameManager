@@ -7,6 +7,7 @@ import com.kamedon.boardgamemanager.domain.usecase.*
 import com.kamedon.boardgamemanager.infra.camera.CameraClient
 import com.kamedon.boardgamemanager.infra.repository.IBoardGameRepository
 import com.kamedon.boardgamemanager.infra.repository.ILoginRepository
+import com.kamedon.boardgamemanager.infra.repository.IRakutenRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -36,6 +37,10 @@ class PresentationModule() {
     @Provides
     @Singleton
     fun provideBoardGameUseCase(repository: IBoardGameRepository): IBoardGameUseCase = BoardGameUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideSearchUseCase(repository: IRakutenRepository): ISearchUseCase = SearchUseCase(repository)
 
 
 }

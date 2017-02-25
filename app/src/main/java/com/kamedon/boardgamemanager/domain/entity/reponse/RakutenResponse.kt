@@ -13,6 +13,6 @@ data class RakutenItems(val Item: RakutenItem) : Serializable {
 
 }
 
-data class RakutenItem(val itemName: String) : Serializable {
+data class RakutenItem(val itemName: String, val itemPrice: Int, val itemCaption: String, val catchcopy: String) : Serializable {
 
 }
