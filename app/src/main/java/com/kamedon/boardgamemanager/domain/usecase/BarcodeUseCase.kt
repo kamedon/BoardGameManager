@@ -4,8 +4,7 @@ import android.graphics.Bitmap
 import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
-import rx.Observable
-import rx.lang.kotlin.toObservable
+import io.reactivex.Observable
 import timber.log.Timber
 
 /**
@@ -23,7 +22,7 @@ class BarcodeUseCase(val detector: BarcodeDetector) : IBarcodeUseCase {
             val result = detector.detect(frame)
             Timber.d("range: ${result.size()}")
             if (result.size() > 0) {
-                return IntRange(0, result.size() - 1).toObservable().map {
+                return Observable.range(0, result.size() - 1).map {
                     result.valueAt(it)
                 }
             }

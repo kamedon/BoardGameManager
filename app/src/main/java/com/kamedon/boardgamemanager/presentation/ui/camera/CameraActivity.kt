@@ -2,6 +2,7 @@ package com.kamedon.boardgamemanager.presentation.ui.camera
 
 import android.Manifest
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
@@ -11,10 +12,13 @@ import permissions.dispatcher.*
 @RuntimePermissions
 class CameraActivity : AppCompatActivity() {
 
+    private var forRequest: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
-        CameraActivityPermissionsDispatcher.showCameraWithCheck(this)
+        forRequest = intent != null
+        CameraActivityPermissionsDispatcher.cameraNeedsPermissionWithCheck(this)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -25,9 +29,13 @@ class CameraActivity : AppCompatActivity() {
 
 
     @NeedsPermission(Manifest.permission.CAMERA)
-    fun showCamera() {
+    fun cameraNeedsPermission() {
         // NOTE: Perform action that requires the permission. If this is run by PermissionsDispatcher, the permission will have been granted
-        supportFragmentManager.beginTransaction().replace(R.id.fragment, CameraFragment.newInstance()).commit()
+        Handler().postDelayed({ showCamera() }, 500L)
+    }
+
+    fun showCamera() {
+        supportFragmentManager.beginTransaction().replace(R.id.fragment, CameraFragment.newInstance(forRequest)).commit()
     }
 
 

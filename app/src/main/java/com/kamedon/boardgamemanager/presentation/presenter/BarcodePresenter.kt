@@ -3,7 +3,7 @@ package com.kamedon.boardgamemanager.presentation.presenter
 import com.google.android.gms.vision.barcode.Barcode
 import com.kamedon.boardgamemanager.domain.usecase.IBarcodeUseCase
 import com.kamedon.boardgamemanager.domain.usecase.ICameraOnePreviewUserCase
-import rx.Observable
+import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

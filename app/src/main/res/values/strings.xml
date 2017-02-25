@@ -15,9 +15,26 @@
     <string name="permission_contacts_rationale">Contacts permissions are needed to demonstrate access to the contacts database.</string>
     <string name="permission_camera_denied">Camera permission was denied. Please consider granting it in order to access the camera!</string>
     <string name="permission_camera_never_askagain">Camera permission was denied with never ask again.</string>
-    <string name="button_allow">Allow</string>
-    <string name="button_deny">Deny</string>
+    <!-- Page -->
+    <string name="page_sign_in">SignIn</string>
+    <string name="page_borad_games">BoardGames</string>
+    <string name="page_camera">Camera</string>
+    <string name="page_borad_game_form">Board Game Form</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Dialog -->
+    <string name="dialog_title_boardgame">Board Game</string>
+
+    <!-- Action -->
+    <string name="action_register_from_barcode">Barcode</string>
+    <string name="action_register_from_form">by Form</string>
+    <string name="button_allow">Allow</string>
+    <string name="action_sign_up">Sign In</string>
+
+    <!-- Text -->
+    <string name="title_activity_board_games">BoardGamesActivity</string>
+    <string name="prompt_barcode">Barcode</string>
+    <string name="action_register">Register</string>
+    <string name="prompt_name">Name</string>
+
 </resources>
